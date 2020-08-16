@@ -1,7 +1,12 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import { getExpectedValue, getChest } from "../lib/propability"
+
 
 export default function Home() {
+  const chest = getChest("diamond");
+  console.log(getExpectedValue(chest));
+
   return (
     <div className={styles.container}>
       <Head>
