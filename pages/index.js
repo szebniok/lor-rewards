@@ -4,7 +4,7 @@ import { getWeeklyReward } from "../lib/propability"
 
 
 export default function Home() {
-  console.log(getWeeklyReward(5));
+  console.log(getWeeklyReward(13));
 
   return (
     <div className={styles.container}>
