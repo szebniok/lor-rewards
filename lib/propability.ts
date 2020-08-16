@@ -4,6 +4,24 @@ const CARD_UPGRADE_PROPABILITY = 0.1;
 const CAPSULE_UPGRADE_PROPABILITY = 0.1;
 const CHEST_UPGRADE_PROPABILITY = 0.2;
 
+const CHEST_RARITIES = [
+    ["bronze", "bronze", "bronze"],
+    ["bronze", "bronze", "silver"],
+    ["bronze", "silver", "silver"],
+    ["bronze", "silver", "gold"],
+    ["silver", "silver", "gold"],
+    ["silver", "gold", "gold"],
+    ["gold", "gold", "gold"],
+    ["gold", "gold", "platinum"],
+    ["gold", "platinum", "platinum"],
+    ["platinum", "platinum", "platinum"],
+    ["platinum", "platinum", "diamond"],
+    ["platinum", "diamond", "diamond"],
+    ["diamond", "diamond", "diamond"],
+    ["platinum", "platinum", "platinum"]
+] as ChestRarity[][];
+
+
 enum CardRarity {
     common = "common",
     rare = "rare",
@@ -30,8 +48,16 @@ type CapsulePropability = Record<CapsuleRarity, number>;
 type ChestPropability = Record<ChestRarity, number>;
 
 type Capsule = [CardPropability, CardPropability, CardPropability, CardPropability, CardPropability];
+
 interface Chest {
     capsules: CapsulePropability[];
+}
+
+interface WeeklyReward {
+    champion: boolean
+    champion_wildcard: boolean,
+    expedition_token: boolean;
+    expected_rewards: CardPropability;
 }
 
 export function getCard(rarity: CardRarity): CardPropability {
@@ -56,7 +82,7 @@ function getUpgradedCard(cardPropability: CardPropability): CardPropability {
     return card;
 }
 
-export function getChest(rarity: ChestRarity): ChestPropability {
+function getChest(rarity: ChestRarity): ChestPropability {
     const chest = { bronze: 0, silver: 0, gold: 0, platinum: 0, diamond: 0 };
     chest[rarity] = 1;
 
@@ -75,14 +101,13 @@ export function getChest(rarity: ChestRarity): ChestPropability {
     return chest;
 }
 
-export function getChestCapsules(rarity: ChestRarity): Chest {
+function getChestCapsules(rarity: ChestRarity): Chest {
     switch (rarity) {
         default:
         case ChestRarity.platinum:
             return {
                 capsules: ["rare", "rare"].map(getCapsule)
             }
-
 
         case ChestRarity.diamond:
             return {
@@ -91,7 +116,7 @@ export function getChestCapsules(rarity: ChestRarity): Chest {
     }
 }
 
-export function getCapsule(rarity: CapsuleRarity): CapsulePropability {
+function getCapsule(rarity: CapsuleRarity): CapsulePropability {
     const capsule = { rare: 0, epic: 0, legendary: 0 };
     capsule[rarity] = 1;
 
@@ -104,7 +129,7 @@ export function getCapsule(rarity: CapsuleRarity): CapsulePropability {
     return capsule;
 }
 
-export function getCapsuleCards(rarity: CapsuleRarity): Capsule {
+function getCapsuleCards(rarity: CapsuleRarity): Capsule {
     let cards: CardPropability[];
 
     switch (rarity) {
@@ -127,7 +152,7 @@ export function getCapsuleCards(rarity: CapsuleRarity): Capsule {
     return cards as Capsule;
 }
 
-export function getExpectedValue(chest: ChestPropability): CardPropability {
+function getExpectedValue(chest: ChestPropability): CardPropability {
     let common = 0;
     let rare = 0;
     let epic = 0;
@@ -159,5 +184,33 @@ export function getExpectedValue(chest: ChestPropability): CardPropability {
 
     return {
         common, rare, epic, legendary
+    }
+}
+
+export function getWeeklyReward(level: number): WeeklyReward {
+    const champion_wildcard = level >= 10;
+    const champion = !champion_wildcard && level >= 5;
+    const expedition_token = level >= 5;
+
+    let common = 0;
+    let rare = 0;
+    let epic = 0;
+    let legendary = 0;
+
+    const chestsEv = CHEST_RARITIES[level - 1].map(getChest).map(getExpectedValue);
+
+    for (let ev of chestsEv) {
+        common += ev.common;
+        rare += ev.rare;
+        epic += ev.epic;
+        legendary += ev.legendary;
+    }
+
+
+    return {
+        champion,
+        champion_wildcard,
+        expedition_token,
+        expected_rewards: { common, rare, epic, legendary },
     }
 }

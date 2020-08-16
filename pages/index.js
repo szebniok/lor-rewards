@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { getExpectedValue, getChest } from "../lib/propability"
+import { getWeeklyReward } from "../lib/propability"
 
 
 export default function Home() {
-  const chest = getChest("diamond");
-  console.log(getExpectedValue(chest));
+  console.log(getWeeklyReward(5));
 
   return (
     <div className={styles.container}>
