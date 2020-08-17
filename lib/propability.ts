@@ -52,7 +52,7 @@ interface Chest {
     cards?: CardPropability[];
 }
 
-interface WeeklyReward {
+export interface WeeklyReward {
     champion: boolean
     champion_wildcard: boolean,
     expedition_token: boolean;
