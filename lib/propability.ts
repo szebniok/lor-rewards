@@ -50,6 +50,12 @@ type Capsule = [CardPropability, CardPropability, CardPropability, CardPropabili
 interface Chest {
     capsules?: CapsulePropability[];
     cards?: CardPropability[];
+    shards: number;
+}
+
+interface ChestExpectedValue {
+    cards: CardPropability;
+    shards: number;
 }
 
 export interface WeeklyReward {
@@ -57,6 +63,7 @@ export interface WeeklyReward {
     champion_wildcard: boolean,
     expedition_token: boolean;
     expected_rewards: CardPropability;
+    shards: number;
 }
 
 export function getCard(rarity: CardRarity): CardPropability {
@@ -98,27 +105,32 @@ function getChestContent(rarity: ChestRarity): Chest {
     switch (rarity) {
         case ChestRarity.bronze:
             return {
-                cards: ["common", "common"].map(getCard)
+                cards: ["common", "common"].map(getCard),
+                shards: 80
             }
 
         case ChestRarity.silver:
             return {
-                cards: ["common", "common", "rare"].map(getCard)
+                cards: ["common", "common", "rare"].map(getCard),
+                shards: 200
             }
 
         case ChestRarity.gold:
             return {
-                capsules: ["rare"].map(getCapsule)
+                capsules: ["rare"].map(getCapsule),
+                shards: 360
             }
 
         case ChestRarity.platinum:
             return {
-                capsules: ["rare", "rare"].map(getCapsule)
+                capsules: ["rare", "rare"].map(getCapsule),
+                shards: 560
             }
 
         case ChestRarity.diamond:
             return {
-                capsules: ["rare", "rare", "rare"].map(getCapsule)
+                capsules: ["rare", "rare", "rare"].map(getCapsule),
+                shards: 800
             }
     }
 }
@@ -159,23 +171,22 @@ function getCapsuleCards(rarity: CapsuleRarity): Capsule {
     return cards as Capsule;
 }
 
-function getExpectedValue(chest: ChestPropability): CardPropability {
+function getExpectedValue(chest: ChestPropability): ChestExpectedValue {
     let common = 0;
     let rare = 0;
     let epic = 0;
     let legendary = 0;
+    let expectedShards = 0;
 
     for (let [chestRarity, chestRarityPropability] of Object.entries(chest)) {
 
-        const { capsules, cards } = getChestContent(ChestRarity[chestRarity]);
+        const { capsules, cards, shards } = getChestContent(ChestRarity[chestRarity]);
 
         for (let capsule of capsules || []) {
-
             for (let [capsuleRarity, capsuleRarityPropability] of Object.entries(capsule)) {
                 const factor = chestRarityPropability * capsuleRarityPropability;
 
                 for (let card of getCapsuleCards(CapsuleRarity[capsuleRarity])) {
-
                     common += factor * card.common;
                     rare += factor * card.rare;
                     epic += factor * card.epic;
@@ -190,10 +201,15 @@ function getExpectedValue(chest: ChestPropability): CardPropability {
             epic += chestRarityPropability * card.epic;
             legendary += chestRarityPropability * card.legendary;
         }
+
+        expectedShards += chestRarityPropability * shards
     }
 
     return {
-        common, rare, epic, legendary
+        cards: {
+            common, rare, epic, legendary
+        },
+        shards: expectedShards
     }
 }
 
@@ -206,14 +222,16 @@ export function getWeeklyReward(level: number): WeeklyReward {
     let rare = 0;
     let epic = 0;
     let legendary = 0;
+    let shards = 0;
 
     const chestsEv = CHEST_RARITIES[level - 1].map(getChest).map(getExpectedValue);
 
     for (let ev of chestsEv) {
-        common += ev.common;
-        rare += ev.rare;
-        epic += ev.epic;
-        legendary += ev.legendary;
+        common += ev.cards.common;
+        rare += ev.cards.rare;
+        epic += ev.cards.epic;
+        legendary += ev.cards.legendary;
+        shards += ev.shards
     }
 
     return {
@@ -221,5 +239,6 @@ export function getWeeklyReward(level: number): WeeklyReward {
         champion_wildcard,
         expedition_token,
         expected_rewards: { common, rare, epic, legendary },
+        shards
     }
 }

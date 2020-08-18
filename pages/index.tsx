@@ -15,6 +15,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
   return (
     <div>
       <input type="range" min="1" max="13" value={level} onChange={e => setLevel(e.target.valueAsNumber)} />
+      <input type="number" min="1" max="13" value={level} onChange={e => setLevel(e.target.valueAsNumber)} />
       <p>champion: {rewards.champion}</p>
       <p>wildcard: {rewards.champion_wildcard}</p>
       <p>token: {rewards.champion}</p>
@@ -22,6 +23,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
       <p>rare: {rewards.expected_rewards.rare}</p>
       <p>epic: {rewards.expected_rewards.epic}</p>
       <p>legendary: {rewards.expected_rewards.legendary}</p>
+      <p>shards: {rewards.shards}</p>
     </div>
   )
 }
