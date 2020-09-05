@@ -1,6 +1,6 @@
-const CARD_UPGRADE_PROPABILITY = 0.1;
-const CAPSULE_UPGRADE_PROPABILITY = 0.1;
-const CHEST_UPGRADE_PROPABILITY = 0.2;
+const CARD_UPGRADE_PROBABILITY = 0.1;
+const CAPSULE_UPGRADE_PROBABILITY = 0.1;
+const CHEST_UPGRADE_PROBABILITY = 0.2;
 
 const CHEST_RARITIES = [
     ["bronze", "bronze", "bronze"],
@@ -41,20 +41,20 @@ enum ChestRarity {
     diamond = "diamond"
 }
 
-type CardPropability = Record<CardRarity, number>;
-type CapsulePropability = Record<CapsuleRarity, number>;
-type ChestPropability = Record<ChestRarity, number>;
+type CardProbability = Record<CardRarity, number>;
+type CapsuleProbability = Record<CapsuleRarity, number>;
+type ChestProbability = Record<ChestRarity, number>;
 
-type Capsule = [CardPropability, CardPropability, CardPropability, CardPropability, CardPropability];
+type Capsule = [CardProbability, CardProbability, CardProbability, CardProbability, CardProbability];
 
 interface Chest {
-    capsules?: CapsulePropability[];
-    cards?: CardPropability[];
+    capsules?: CapsuleProbability[];
+    cards?: CardProbability[];
     shards: number;
 }
 
 interface ChestExpectedValue {
-    cards: CardPropability;
+    cards: CardProbability;
     shards: number;
 }
 
@@ -62,41 +62,41 @@ export interface WeeklyReward {
     champion: boolean
     champion_wildcard: boolean,
     expedition_token: boolean;
-    expected_rewards: CardPropability;
+    expected_rewards: CardProbability;
     shards: number;
 }
 
-export function getCard(rarity: CardRarity): CardPropability {
+export function getCard(rarity: CardRarity): CardProbability {
     const card = { common: 0, rare: 0, epic: 0, legendary: 0 };
     card[rarity] = 1;
 
-    card.rare += card.common * CARD_UPGRADE_PROPABILITY;
-    card.common *= (1 - CARD_UPGRADE_PROPABILITY);
+    card.rare += card.common * CARD_UPGRADE_PROBABILITY;
+    card.common *= (1 - CARD_UPGRADE_PROBABILITY);
 
-    card.epic += card.rare * CARD_UPGRADE_PROPABILITY;
-    card.rare *= (1 - CARD_UPGRADE_PROPABILITY);
+    card.epic += card.rare * CARD_UPGRADE_PROBABILITY;
+    card.rare *= (1 - CARD_UPGRADE_PROBABILITY);
 
-    card.legendary += card.epic * CARD_UPGRADE_PROPABILITY;
-    card.epic *= (1 - CARD_UPGRADE_PROPABILITY);
+    card.legendary += card.epic * CARD_UPGRADE_PROBABILITY;
+    card.epic *= (1 - CARD_UPGRADE_PROBABILITY);
 
     return card;
 }
 
-function getChest(rarity: ChestRarity): ChestPropability {
+function getChest(rarity: ChestRarity): ChestProbability {
     const chest = { bronze: 0, silver: 0, gold: 0, platinum: 0, diamond: 0 };
     chest[rarity] = 1;
 
-    chest.silver += chest.bronze * CHEST_UPGRADE_PROPABILITY;
-    chest.bronze *= (1 - CHEST_UPGRADE_PROPABILITY);
+    chest.silver += chest.bronze * CHEST_UPGRADE_PROBABILITY;
+    chest.bronze *= (1 - CHEST_UPGRADE_PROBABILITY);
 
-    chest.gold += chest.silver * CHEST_UPGRADE_PROPABILITY;
-    chest.silver *= (1 - CHEST_UPGRADE_PROPABILITY);
+    chest.gold += chest.silver * CHEST_UPGRADE_PROBABILITY;
+    chest.silver *= (1 - CHEST_UPGRADE_PROBABILITY);
 
-    chest.platinum += chest.gold * CHEST_UPGRADE_PROPABILITY;
-    chest.gold *= (1 - CHEST_UPGRADE_PROPABILITY);
+    chest.platinum += chest.gold * CHEST_UPGRADE_PROBABILITY;
+    chest.gold *= (1 - CHEST_UPGRADE_PROBABILITY);
 
-    chest.diamond += chest.platinum * CHEST_UPGRADE_PROPABILITY;
-    chest.platinum *= (1 - CHEST_UPGRADE_PROPABILITY);
+    chest.diamond += chest.platinum * CHEST_UPGRADE_PROBABILITY;
+    chest.platinum *= (1 - CHEST_UPGRADE_PROBABILITY);
 
     return chest;
 }
@@ -135,21 +135,21 @@ function getChestContent(rarity: ChestRarity): Chest {
     }
 }
 
-function getCapsule(rarity: CapsuleRarity): CapsulePropability {
+function getCapsule(rarity: CapsuleRarity): CapsuleProbability {
     const capsule = { rare: 0, epic: 0, legendary: 0 };
     capsule[rarity] = 1;
 
-    capsule.epic += capsule.rare * CAPSULE_UPGRADE_PROPABILITY;
-    capsule.rare *= (1 - CAPSULE_UPGRADE_PROPABILITY);
+    capsule.epic += capsule.rare * CAPSULE_UPGRADE_PROBABILITY;
+    capsule.rare *= (1 - CAPSULE_UPGRADE_PROBABILITY);
 
-    capsule.legendary += capsule.epic * CAPSULE_UPGRADE_PROPABILITY;
-    capsule.epic *= (1 - CAPSULE_UPGRADE_PROPABILITY);
+    capsule.legendary += capsule.epic * CAPSULE_UPGRADE_PROBABILITY;
+    capsule.epic *= (1 - CAPSULE_UPGRADE_PROBABILITY);
 
     return capsule;
 }
 
 function getCapsuleCards(rarity: CapsuleRarity): Capsule {
-    let cards: CardPropability[];
+    let cards: CardProbability[];
 
     switch (rarity) {
         case CapsuleRarity.rare:
@@ -171,20 +171,20 @@ function getCapsuleCards(rarity: CapsuleRarity): Capsule {
     return cards as Capsule;
 }
 
-function getExpectedValue(chest: ChestPropability): ChestExpectedValue {
+function getExpectedValue(chest: ChestProbability): ChestExpectedValue {
     let common = 0;
     let rare = 0;
     let epic = 0;
     let legendary = 0;
     let expectedShards = 0;
 
-    for (let [chestRarity, chestRarityPropability] of Object.entries(chest)) {
+    for (let [chestRarity, chestRarityProbability] of Object.entries(chest)) {
 
         const { capsules, cards, shards } = getChestContent(ChestRarity[chestRarity]);
 
         for (let capsule of capsules || []) {
-            for (let [capsuleRarity, capsuleRarityPropability] of Object.entries(capsule)) {
-                const factor = chestRarityPropability * capsuleRarityPropability;
+            for (let [capsuleRarity, capsuleRarityProbability] of Object.entries(capsule)) {
+                const factor = chestRarityProbability * capsuleRarityProbability;
 
                 for (let card of getCapsuleCards(CapsuleRarity[capsuleRarity])) {
                     common += factor * card.common;
@@ -196,13 +196,13 @@ function getExpectedValue(chest: ChestPropability): ChestExpectedValue {
         }
 
         for (let card of cards || []) {
-            common += chestRarityPropability * card.common;
-            rare += chestRarityPropability * card.rare;
-            epic += chestRarityPropability * card.epic;
-            legendary += chestRarityPropability * card.legendary;
+            common += chestRarityProbability * card.common;
+            rare += chestRarityProbability * card.rare;
+            epic += chestRarityProbability * card.epic;
+            legendary += chestRarityProbability * card.legendary;
         }
 
-        expectedShards += chestRarityPropability * shards
+        expectedShards += chestRarityProbability * shards
     }
 
     return {

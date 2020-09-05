@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { getWeeklyReward, WeeklyReward } from "../lib/propability"
+import { getWeeklyReward, WeeklyReward } from "../lib/probability"
 import { GetStaticProps } from "next";
 import { FunctionComponent, useState } from "react";
 
