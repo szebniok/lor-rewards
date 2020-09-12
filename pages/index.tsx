@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import { getWeeklyReward, WeeklyReward } from "../lib/probability"
 import { GetStaticProps } from "next";
 import { FunctionComponent, useState } from "react";
+import LevelSlider from "../components/LevelSlider";
 
 interface Props {
   levelRewards: WeeklyReward[];
@@ -14,8 +15,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
 
   return (
     <div>
-      <input type="range" min="1" max="13" value={level} onChange={e => setLevel(e.target.valueAsNumber)} />
-      <input type="number" min="1" max="13" value={level} onChange={e => setLevel(e.target.valueAsNumber)} />
+      <LevelSlider level={level} onLevelChange={setLevel} />
       <p>champion: {rewards.champion_card ? "yes" : "no"}</p>
       <p>wildcard: {rewards.champion_wildcard ? "yes" : "no"}</p>
       <p>token: {rewards.expedition_token ? "yes" : "no"}</p>
