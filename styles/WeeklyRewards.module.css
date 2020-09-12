@@ -1,0 +1,13 @@
+.chest-rewards {
+    margin-top: 5px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.chest-rarities-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.chest-rarity {
+}
