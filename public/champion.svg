@@ -1,0 +1,14 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="hexagon" points="100,0 183,50, 183,150 100,200 17,150 17,50" />
+        <clipPath id="clip">
+            <use xlink:href="#hexagon" />
+        </clipPath>
+    </defs>
+    <g>
+        <use xlink:href="#hexagon" stroke-width="40" stroke="rgb(55%,30%,18%)" clip-path="url(#clip)" fill="#fd8e00" />
+
+        <polygon points="100,26 160.5,62.5, 160.5,137.5 100,174 39.5,137.5 39.5,62.5" fill="none" stroke="#00000044"
+            stroke-width="5" />
+    </g>
+</svg>

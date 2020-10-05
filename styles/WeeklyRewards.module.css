@@ -10,4 +10,11 @@
 }
 
 .chest-rarity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chest-rarity img {
+    height: 2rem;
 }

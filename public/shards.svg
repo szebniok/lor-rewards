@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g fill="green" stroke="#ffffff88">
+        <polygon points="110,103 150,100 105,200" />
+        <polygon points="50,90 110,103 105,200" fill="rgb(0,86,0)" />
+        <polygon points="100,0 150,100 98,105" fill="rgb(0,170,0)" />
+        <polygon points="100,0 98,105 50,90" />
+
+        <polygon points="50,110 63,130 70,170 40,130" />
+
+        <polygon points="145,130 150,140 135,170 140,140" />
+    </g>
+</svg>

@@ -12,6 +12,7 @@ const ChestRarity: FunctionComponent<ChestRarityProps> = ({ name, quantity, prec
     return (
         <div className={styles["chest-rarity"]}>
             <p>{name}</p>
+            <img src={`/${name}.svg`} alt={name} title={name} />
             <p>{quantity.toFixed(precision)}</p>
         </div>
     )
