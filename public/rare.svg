@@ -1,0 +1,6 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <rect id="square" x="0" y="0" width="200" height="200" stroke-width="40" fill="rgb(0,70,255)"
+        stroke="rgb(55%,30%,18%)" />
+
+    <rect x="22.5" y="22.5" width="155" height="155" fill="none" stroke="#00000044" stroke-width="5" />
+</svg>

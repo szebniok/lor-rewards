@@ -1,0 +1,15 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="pentagon" points="100,0 195,69, 158,180 41,180 5,69" />
+        <clipPath id="clip">
+            <use xlink:href="#pentagon" />
+        </clipPath>
+    </defs>
+    <g>
+        <use xlink:href="#pentagon" stroke-width="40" stroke="rgb(55%,30%,18%)" clip-path="url(#clip)" fill="#8b45b7"
+            fill-opacity="inherit" />
+
+        <polygon points="100,28 168.5,77.5, 142,157.5 57.5,157.5 31.5,77.5" fill="none" stroke="#00000044"
+            stroke-width="5" />
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+.inputs-container {
+    display: flex;
+}
+
+.range-input {
+    flex: 1;
+}
+
+.number-input {
+    width: 7ch;
+}
