@@ -1,6 +1,7 @@
 import { WeeklyReward as WeeklyRewardType } from "../lib/probability";
 import { FunctionComponent } from "react";
 import styles from "../styles/WeeklyRewards.module.css";
+import { getShardValueOfWeeklyReward, getDollarValueOfWeeklyReward } from "../lib/value";
 
 interface ChestRarityProps {
     name: string;
@@ -30,6 +31,23 @@ const AdditionalReward: FunctionComponent<{ type: "card" | "wildcard" | "token" 
             <p>{rewardName}</p>
         </div>
     );
+}
+
+interface EstimatedValueProps {
+    type: "shards" | "dollar";
+    rewards: WeeklyRewardType;
+}
+
+const EstimatedValue: FunctionComponent<EstimatedValueProps> = ({ type, rewards }) => {
+    const value = type == "shards" ? getShardValueOfWeeklyReward(rewards) : getDollarValueOfWeeklyReward(rewards);
+    const formattedValue = type == "shards" ? `${value.toFixed(0)} shards` : `$${value.toFixed(2)}`
+
+    return (
+        <div className={styles["reward"]}>
+            <img src={`/${type}.svg`} alt={type} title={type} />
+            <p>{formattedValue}</p>
+        </div>
+    )
 }
 
 interface Props {
@@ -63,6 +81,14 @@ const WeeklyRewards: FunctionComponent<Props> = ({ rewards }) => {
                     </div>
                 </div>
             }
+            <div className={styles["rewards-group"]}>
+                <p>Estimated value:</p>
+
+                <div className={styles["rewards-list-container"]}>
+                    <EstimatedValue rewards={rewards} type="shards" />
+                    <EstimatedValue rewards={rewards} type="dollar" />
+                </div>
+            </div>
         </>
     );
 }

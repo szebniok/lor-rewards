@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="green" stroke-width="15">
+        <path d="M 145,60 c 0,-20 -25,-40 -45,-40
+             -20,0 -45,20 -45,40
+             0,40 90,40 90,80
+             0,20 -25,40 -45,40
+             -20,0 -45,-20 -45,-40" fill="none" />
+
+        <line x1="100" y1="0" x2="100" y2="200" />
+    </g>
+</svg>

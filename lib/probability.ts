@@ -22,14 +22,14 @@ const CHEST_RARITIES = [
 ] as ChestRarity[][];
 
 
-enum CardRarity {
+export enum CardRarity {
     common = "common",
     rare = "rare",
     epic = "epic",
     champion = "champion"
 }
 
-enum CapsuleRarity {
+export enum CapsuleRarity {
     rare = "rare",
     epic = "epic",
     champion = "champion",
@@ -44,7 +44,7 @@ enum ChestRarity {
     diamond = "diamond"
 }
 
-type CardProbability = Record<CardRarity, number>;
+export type CardProbability = Record<CardRarity, number>;
 type CapsuleProbability = Record<CapsuleRarity, number>;
 type ChestProbability = Record<ChestRarity, number>;
 
@@ -65,7 +65,7 @@ export interface WeeklyReward {
     champion_card: boolean
     champion_wildcard: boolean,
     expedition_token: boolean;
-    expected_rewards: CardProbability;
+    expected_rewards: Record<CardRarity, number>;
     shards: number;
 }
 
@@ -151,7 +151,7 @@ function getCapsule(rarity: CapsuleRarity): CapsuleProbability {
     return capsule;
 }
 
-function getCapsuleCards(rarity: CapsuleRarity): Capsule {
+export function getCapsuleCards(rarity: CapsuleRarity): Capsule {
     let cards: CardProbability[];
 
     switch (rarity) {
