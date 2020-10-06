@@ -2,6 +2,7 @@ import { WeeklyReward as WeeklyRewardType } from "../lib/probability";
 import { FunctionComponent } from "react";
 import styles from "../styles/WeeklyRewards.module.css";
 import { getShardValueOfWeeklyReward, getDollarValueOfWeeklyReward } from "../lib/value";
+import { useRouter } from "next/router";
 
 interface ChestRarityProps {
     name: string;
@@ -10,16 +11,20 @@ interface ChestRarityProps {
 }
 
 const ChestRarity: FunctionComponent<ChestRarityProps> = ({ name, quantity, precision = 3 }) => {
+    const { basePath } = useRouter();
+
     return (
         <div className={styles["reward"]}>
             <p>{name}</p>
-            <img src={`/${name}.svg`} alt={name} title={name} />
+            <img src={`${basePath}/${name}.svg`} alt={name} title={name} />
             <p>{quantity.toFixed(precision)}</p>
         </div>
     )
 }
 
 const AdditionalReward: FunctionComponent<{ type: "card" | "wildcard" | "token" }> = ({ type }) => {
+    const { basePath } = useRouter();
+
     const iconSrc = type == "token" ? "/token.svg" : "champion.svg";
     const rewardName = type == "card" ? "Random champion card"
         : type == "wildcard" ? "Champion wildcard"
@@ -27,7 +32,7 @@ const AdditionalReward: FunctionComponent<{ type: "card" | "wildcard" | "token" 
 
     return (
         <div className={styles["reward"]}>
-            <img src={iconSrc} alt={rewardName} title={rewardName} />
+            <img src={`${basePath}/${iconSrc}`} alt={rewardName} title={rewardName} />
             <p>{rewardName}</p>
         </div>
     );
@@ -39,12 +44,14 @@ interface EstimatedValueProps {
 }
 
 const EstimatedValue: FunctionComponent<EstimatedValueProps> = ({ type, rewards }) => {
+    const { basePath } = useRouter();
+
     const value = type == "shards" ? getShardValueOfWeeklyReward(rewards) : getDollarValueOfWeeklyReward(rewards);
     const formattedValue = type == "shards" ? `${value.toFixed(0)} shards` : `$${value.toFixed(2)}`
 
     return (
         <div className={styles["reward"]}>
-            <img src={`/${type}.svg`} alt={type} title={type} />
+            <img src={`${basePath}/${type}.svg`} alt={type} title={type} />
             <p>{formattedValue}</p>
         </div>
     )
