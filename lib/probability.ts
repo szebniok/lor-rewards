@@ -2,6 +2,8 @@ const CARD_UPGRADE_PROBABILITY = 0.1;
 const CAPSULE_UPGRADE_PROBABILITY = 0.1;
 const CHEST_UPGRADE_PROBABILITY = 0.2;
 
+const BONUS_THRESHOLD = 13;
+
 const CHEST_RARITIES = [
     ["bronze", "bronze", "bronze"],
     ["bronze", "bronze", "silver"],
@@ -30,7 +32,8 @@ enum CardRarity {
 enum CapsuleRarity {
     rare = "rare",
     epic = "epic",
-    champion = "champion"
+    champion = "champion",
+    bonus = "bonus"
 }
 
 enum ChestRarity {
@@ -136,7 +139,7 @@ function getChestContent(rarity: ChestRarity): Chest {
 }
 
 function getCapsule(rarity: CapsuleRarity): CapsuleProbability {
-    const capsule = { rare: 0, epic: 0, champion: 0 };
+    const capsule = { rare: 0, epic: 0, champion: 0, bonus: 0 };
     capsule[rarity] = 1;
 
     capsule.epic += capsule.rare * CAPSULE_UPGRADE_PROBABILITY;
@@ -164,6 +167,11 @@ function getCapsuleCards(rarity: CapsuleRarity): Capsule {
 
         case CapsuleRarity.champion:
             cards = ["rare", "rare", "rare", "epic", "champion"]
+                .map(r => getCard(CardRarity[r]));
+            break;
+
+        case CapsuleRarity.bonus:
+            cards = ["common", "common", "rare", "rare", "rare"]
                 .map(r => getCard(CardRarity[r]));
             break;
     }
@@ -224,7 +232,10 @@ export function getWeeklyReward(level: number): WeeklyReward {
     let champion = 0;
     let shards = 0;
 
-    const chestsEv = CHEST_RARITIES[level - 1].map(getChest).map(getExpectedValue);
+    const baseLevel = Math.min(level, BONUS_THRESHOLD);
+    const bonusLevel = level - baseLevel;
+
+    const chestsEv = CHEST_RARITIES[baseLevel - 1].map(getChest).map(getExpectedValue);
 
     for (let ev of chestsEv) {
         common += ev.cards.common;
@@ -232,6 +243,16 @@ export function getWeeklyReward(level: number): WeeklyReward {
         epic += ev.cards.epic;
         champion += ev.cards.champion;
         shards += ev.shards
+    }
+
+    if (bonusLevel > 0) {
+        const bonusCapsuleEv = getCapsuleCards(CapsuleRarity.bonus);
+        for (let ev of bonusCapsuleEv) {
+            common += bonusLevel * ev.common;
+            rare += bonusLevel * ev.rare;
+            epic += bonusLevel * ev.epic;
+            champion += bonusLevel * ev.champion;
+        }
     }
 
     return {

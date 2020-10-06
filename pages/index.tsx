@@ -35,7 +35,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-    const levels = Array(13).fill(0).map((_, i) => i + 1);
+    const levels = Array(13 + 25).fill(0).map((_, i) => i + 1);
     return {
         props: {
             levelRewards: levels.map(getWeeklyReward)
