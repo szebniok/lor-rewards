@@ -25,7 +25,7 @@ const ChestRarity: FunctionComponent<ChestRarityProps> = ({ name, quantity, prec
 const AdditionalReward: FunctionComponent<{ type: "card" | "wildcard" | "token" }> = ({ type }) => {
     const { basePath } = useRouter();
 
-    const iconSrc = type == "token" ? "/token.svg" : "champion.svg";
+    const iconSrc = type == "token" ? "token.svg" : "champion.svg";
     const rewardName = type == "card" ? "Random champion card"
         : type == "wildcard" ? "Champion wildcard"
             : "Expedition token"
