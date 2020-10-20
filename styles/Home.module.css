@@ -1,0 +1,14 @@
+main.main {
+    flex: 1 0;
+}
+
+footer.footer {
+    background-color: var(--light-bg); 
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+footer.footer > div {
+    max-width: 900px;
+    margin: 0 auto;
+}
