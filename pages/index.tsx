@@ -5,6 +5,7 @@ import { FunctionComponent, useState } from "react";
 import LevelSlider from "../components/LevelSlider";
 import Link from "next/link";
 import WeeklyRewards from "../components/WeeklyRewards";
+import Head from "next/head";
 
 interface Props {
     levelRewards: WeeklyReward[];
@@ -16,6 +17,9 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
 
     return (
         <>
+            <Head>
+                <script async defer data-domain="szebniok.github.io/lor-rewards" src="https://stats.000077.xyz/js/plausible.js"></script>
+            </Head>
             <nav>
                 <h1>
                     <Link href="/">
