@@ -19,6 +19,8 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
         <>
             <Head>
                 <script async defer data-domain="szebniok.github.io/lor-rewards" src="https://stats.000077.xyz/js/plausible.js"></script>
+                <title>Legends of Runeterra weekly rewards</title>
+                <meta name="description" content="Legends of Runeterra weekly rewards calculator" />
             </Head>
             <nav>
                 <h1>
@@ -36,11 +38,12 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
             <footer className={`extend ${styles.footer}`}>
                 <div>
                     <p>
-                        View the source code <a href="https://github.com/szebniok/lor-rewards">on GitHub</a>.
+                        You can browse the source code <a href="https://github.com/szebniok/lor-rewards">on GitHub</a>.
                         Last updated: <time dateTime="2020-10-20">2020-10-20 (patch 1.12)</time>
                     </p>
+                    <p>This site is unofficial, the numbers shown here may be incorrect.</p>
                     <p>
-                        <a href="/">lor-rewards</a> isn't endorsed by Riot Games and
+                        <Link href="/"><a>lor-rewards</a></Link> isn't endorsed by Riot Games and
                         doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing
                         Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks
                         of Riot Games, Inc.
