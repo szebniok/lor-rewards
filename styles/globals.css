@@ -26,8 +26,7 @@ body {
 
 #__next > * {
     width: 100%;
-    max-width: 900px;
-    padding: 0 var(--horizontal-space);
+    max-width: min(900px, 100% - 2 * var(--horizontal-space));
 }
 
 #__next > .extend {
