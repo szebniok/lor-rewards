@@ -1,8 +1,8 @@
 :root {
     --light-bg: #eee;
     --light-text: #444;
+    --horizontal-space: 20px;
 }
-
 
 * {
    box-sizing: border-box;
@@ -18,7 +18,6 @@ body {
 }
 
 #__next {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,6 +27,7 @@ body {
 #__next > * {
     width: 100%;
     max-width: 900px;
+    padding: 0 var(--horizontal-space);
 }
 
 #__next > .extend {
