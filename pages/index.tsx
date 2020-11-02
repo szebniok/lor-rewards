@@ -32,7 +32,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
                 </h1>
             </nav>
             <main className={styles.main}>
-                <LevelSlider level={level} onLevelChange={setLevel} />
+                <LevelSlider initialLevel={1} onLevelChange={setLevel} />
                 <WeeklyRewards rewards={rewards} />
             </main>
             <footer className={`extend ${styles.footer}`}>
