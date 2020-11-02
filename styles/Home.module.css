@@ -9,6 +9,6 @@ footer.footer {
 }
 
 footer.footer > div {
-    max-width: 900px;
+    max-width: min(900px, 100% - 2 * var(--horizontal-space));
     margin: 0 auto;
 }
