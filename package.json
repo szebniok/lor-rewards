@@ -9,9 +9,9 @@
     "export": "next build && next export"
   },
   "dependencies": {
-    "next": "9.5.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "next": "^10.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "resolutions": {
     "webpack": "^5.0.0-beta.25"
