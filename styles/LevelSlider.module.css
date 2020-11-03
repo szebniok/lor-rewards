@@ -1,9 +1,32 @@
 .inputs-container {
     display: flex;
+    margin: 3px 0;
 }
 
 .range-input {
+    --thumb-size: 20px;
     flex: 1;
+    height: var(--thumb-size);
+    display: flex;
+    align-items: center;
+}
+
+.range-input-track {
+    width: 100%;
+    height: 5px;
+    background: #ccc;
+    margin: 0 calc(var(--thumb-size) / 2 + 4px);
+}
+
+.range-input-thumb {
+    --thumb-color: #444;
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    background: var(--thumb-color)
+}
+
+.range-input-thumb.clicked {
+    --thumb-color: black;
 }
 
 .number-input {
