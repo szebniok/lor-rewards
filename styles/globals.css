@@ -2,6 +2,7 @@
     --light-bg: #eee;
     --light-text: #444;
     --horizontal-space: 20px;
+    --vertical-space: 10px;
 }
 
 * {
@@ -31,4 +32,8 @@ body {
 
 #__next > .extend {
     max-width: unset;
+}
+
+footer {
+    margin-top: var(--vertical-space);
 }

@@ -22,7 +22,8 @@
     --thumb-color: #444;
     width: var(--thumb-size);
     height: var(--thumb-size);
-    background: var(--thumb-color)
+    background: var(--thumb-color);
+    border-radius: 5px;
 }
 
 .range-input-thumb.clicked {
