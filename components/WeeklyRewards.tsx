@@ -33,7 +33,7 @@ const AdditionalReward: FunctionComponent<{ type: "card" | "wildcard" | "token" 
     return (
         <div className={styles["reward"]}>
             <img src={`${basePath}/${iconSrc}`} alt={rewardName} title={rewardName} />
-            <p>{rewardName}</p>
+            <p className={styles["reward-name"]}>{rewardName}</p>
         </div>
     );
 }
