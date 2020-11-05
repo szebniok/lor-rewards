@@ -109,31 +109,31 @@ function getChestContent(rarity: ChestRarity): Chest {
         case ChestRarity.bronze:
             return {
                 cards: ["common", "common"].map(getCard),
-                shards: 80
+                shards: 60
             }
 
         case ChestRarity.silver:
             return {
                 cards: ["common", "common", "rare"].map(getCard),
-                shards: 200
+                shards: 140
             }
 
         case ChestRarity.gold:
             return {
                 capsules: ["rare"].map(getCapsule),
-                shards: 360
+                shards: 240
             }
 
         case ChestRarity.platinum:
             return {
                 capsules: ["rare", "rare"].map(getCapsule),
-                shards: 560
+                shards: 360
             }
 
         case ChestRarity.diamond:
             return {
                 capsules: ["rare", "rare", "rare"].map(getCapsule),
-                shards: 800
+                shards: 500
             }
     }
 }
