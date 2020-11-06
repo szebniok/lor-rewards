@@ -34,3 +34,14 @@
 .reward .reward-name {
     text-align: center;
 }
+
+.fade-enter {
+    opacity: 0;
+    transform: translateY(0.7rem);
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transform: unset;
+    transition: 0.2s ease-in opacity, 0.1s ease-in transform;
+}

@@ -1,8 +1,9 @@
 import { WeeklyReward as WeeklyRewardType } from "../lib/probability";
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import styles from "../styles/WeeklyRewards.module.css";
 import { getShardValueOfWeeklyReward, getDollarValueOfWeeklyReward } from "../lib/value";
 import { useRouter } from "next/router";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 interface ChestRarityProps {
     name: string;
@@ -17,7 +18,9 @@ const ChestRarity: FunctionComponent<ChestRarityProps> = ({ name, quantity, prec
         <div className={styles["reward"]}>
             <p>{name}</p>
             <img src={`${basePath}/${name}.svg`} alt={name} title={name} />
-            <p>{quantity.toFixed(precision)}</p>
+            <FadeIn id={quantity}>
+                <p>{quantity.toFixed(precision)}</p>
+            </FadeIn>
         </div>
     )
 }
@@ -33,7 +36,9 @@ const AdditionalReward: FunctionComponent<{ type: "card" | "wildcard" | "token" 
     return (
         <div className={styles["reward"]}>
             <img src={`${basePath}/${iconSrc}`} alt={rewardName} title={rewardName} />
-            <p className={styles["reward-name"]}>{rewardName}</p>
+            <FadeIn id={type}>
+                <p className={styles["reward-name"]}>{rewardName}</p>
+            </FadeIn>
         </div>
     );
 }
@@ -52,7 +57,9 @@ const EstimatedValue: FunctionComponent<EstimatedValueProps> = ({ type, rewards 
     return (
         <div className={styles["reward"]}>
             <img src={`${basePath}/${type}.svg`} alt={type} title={type} />
-            <p>{formattedValue}</p>
+            <FadeIn id={value}>
+                <p>{formattedValue}</p>
+            </FadeIn>
         </div>
     )
 }
@@ -101,3 +108,22 @@ const WeeklyRewards: FunctionComponent<Props> = ({ rewards }) => {
 }
 
 export default WeeklyRewards;
+
+
+const FadeIn: FunctionComponent<{ children: ReactNode, id: string | number }> = ({ children, id }) => {
+    return (
+        <TransitionGroup>
+            <CSSTransition
+                key={id}
+                timeout={250}
+                classNames={{
+                    enter: styles["fade-enter"],
+                    enterActive: styles["fade-enter-active"]
+                }}
+                exit={false}
+            >
+                {children}
+            </CSSTransition>
+        </TransitionGroup>
+    );
+}

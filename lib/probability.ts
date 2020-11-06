@@ -57,7 +57,7 @@ interface Chest {
 }
 
 interface ChestExpectedValue {
-    cards: CardProbability;
+    cards: Record<CardRarity, number>;
     shards: number;
 }
 
@@ -104,6 +104,30 @@ function getChest(rarity: ChestRarity): ChestProbability {
     return chest;
 }
 
+function getCapsule(rarity: CapsuleRarity): CapsuleProbability {
+    const capsule = { rare: 0, epic: 0, champion: 0, bonus: 0 };
+    capsule[rarity] = 1;
+
+    capsule.epic += capsule.rare * CAPSULE_UPGRADE_PROBABILITY;
+    capsule.rare *= (1 - CAPSULE_UPGRADE_PROBABILITY);
+
+    capsule.champion += capsule.epic * CAPSULE_UPGRADE_PROBABILITY;
+    capsule.epic *= (1 - CAPSULE_UPGRADE_PROBABILITY);
+
+    return capsule;
+}
+
+export function getCapsuleContent(rarity: CapsuleRarity): Capsule {
+    const CAPSULE_RARITY_TO_CARDS_RARITY: Record<CapsuleRarity, CardRarity[]> = {
+        rare: [CardRarity.common, CardRarity.common, CardRarity.common, CardRarity.common, CardRarity.rare],
+        epic: [CardRarity.common, CardRarity.common, CardRarity.rare, CardRarity.rare, CardRarity.epic],
+        champion: [CardRarity.rare, CardRarity.rare, CardRarity.rare, CardRarity.epic, CardRarity.champion],
+        bonus: [CardRarity.common, CardRarity.common, CardRarity.rare, CardRarity.rare, CardRarity.rare],
+    };
+
+    return CAPSULE_RARITY_TO_CARDS_RARITY[rarity].map(getCard) as Capsule;
+}
+
 function getChestContent(rarity: ChestRarity): Chest {
     switch (rarity) {
         case ChestRarity.bronze:
@@ -138,47 +162,6 @@ function getChestContent(rarity: ChestRarity): Chest {
     }
 }
 
-function getCapsule(rarity: CapsuleRarity): CapsuleProbability {
-    const capsule = { rare: 0, epic: 0, champion: 0, bonus: 0 };
-    capsule[rarity] = 1;
-
-    capsule.epic += capsule.rare * CAPSULE_UPGRADE_PROBABILITY;
-    capsule.rare *= (1 - CAPSULE_UPGRADE_PROBABILITY);
-
-    capsule.champion += capsule.epic * CAPSULE_UPGRADE_PROBABILITY;
-    capsule.epic *= (1 - CAPSULE_UPGRADE_PROBABILITY);
-
-    return capsule;
-}
-
-export function getCapsuleCards(rarity: CapsuleRarity): Capsule {
-    let cards: CardProbability[];
-
-    switch (rarity) {
-        case CapsuleRarity.rare:
-            cards = ["common", "common", "common", "common", "rare"]
-                .map(r => getCard(CardRarity[r]));
-            break;
-
-        case CapsuleRarity.epic:
-            cards = ["common", "common", "rare", "rare", "epic"]
-                .map(r => getCard(CardRarity[r]));
-            break;
-
-        case CapsuleRarity.champion:
-            cards = ["rare", "rare", "rare", "epic", "champion"]
-                .map(r => getCard(CardRarity[r]));
-            break;
-
-        case CapsuleRarity.bonus:
-            cards = ["common", "common", "rare", "rare", "rare"]
-                .map(r => getCard(CardRarity[r]));
-            break;
-    }
-
-    return cards as Capsule;
-}
-
 function getExpectedValue(chest: ChestProbability): ChestExpectedValue {
     let common = 0;
     let rare = 0;
@@ -194,7 +177,7 @@ function getExpectedValue(chest: ChestProbability): ChestExpectedValue {
             for (let [capsuleRarity, capsuleRarityProbability] of Object.entries(capsule)) {
                 const factor = chestRarityProbability * capsuleRarityProbability;
 
-                for (let card of getCapsuleCards(CapsuleRarity[capsuleRarity])) {
+                for (let card of getCapsuleContent(CapsuleRarity[capsuleRarity])) {
                     common += factor * card.common;
                     rare += factor * card.rare;
                     epic += factor * card.epic;
@@ -246,7 +229,7 @@ export function getWeeklyReward(level: number): WeeklyReward {
     }
 
     if (bonusLevel > 0) {
-        const bonusCapsuleEv = getCapsuleCards(CapsuleRarity.bonus);
+        const bonusCapsuleEv = getCapsuleContent(CapsuleRarity.bonus);
         for (let ev of bonusCapsuleEv) {
             common += bonusLevel * ev.common;
             rare += bonusLevel * ev.rare;
