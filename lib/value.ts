@@ -1,4 +1,4 @@
-import { CardRarity, CapsuleRarity, WeeklyReward, getCapsuleCards, CardProbability } from "./probability"
+import { CardRarity, CapsuleRarity, WeeklyReward, getCapsuleContent, CardProbability } from "./probability"
 
 const CARD_RARITY_VALUE_IN_SHARDS: Record<CardRarity, number> = {
     [CardRarity.common]: 100,
@@ -37,7 +37,7 @@ export function getShardValueOfWeeklyReward(reward: WeeklyReward): number {
     }
 
     if (reward.expedition_token) {
-        const expedition_reward = getCapsuleCards(CapsuleRarity.epic);
+        const expedition_reward = getCapsuleContent(CapsuleRarity.epic);
 
         for (let card of expedition_reward) {
             result += getShardValueOfCardProbability(card);
