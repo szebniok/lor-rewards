@@ -2,58 +2,75 @@ import { FunctionComponent, useState } from "react";
 import styles from "../styles/LevelSlider.module.css";
 import { Range } from "react-range";
 
+const MAX_LEVEL = 13;
+const MAX_BONUS_LEVEL = 25;
+
 interface Props {
     initialLevel: number;
     onLevelChange: (level: number) => void;
 }
 
-const MAX_LEVEL = 13;
-const MAX_BONUS_LEVEL = 25;
-
 const LevelSlider: FunctionComponent<Props> = ({ initialLevel, onLevelChange }) => {
     const [level, setLevel] = useState(initialLevel);
+    const [mainLevelNumberInput, setMainLevelNumberInput] = useState<string>(initialLevel.toString());
+    const [bonusLevelNumberInput, setBonusLevelNumberInput] = useState<string>(initialLevel.toString());
 
-    const updateLevel = (newLevel?: number) => {
-        const clampedLevel = Math.min(Math.max(newLevel, 1), MAX_LEVEL + MAX_BONUS_LEVEL);
-        setLevel(clampedLevel)
-        if (!isNaN(clampedLevel)) {
-            onLevelChange(clampedLevel);
-        }
+    const updateLevel = (newLevel: number) => {
+        setLevel(newLevel)
+        setMainLevelNumberInput(Math.min(newLevel, MAX_LEVEL).toString());
+        setBonusLevelNumberInput((newLevel - MAX_LEVEL).toString());
+        onLevelChange(newLevel);
     }
 
     const updateBonusLevel = (newLevel: number) => updateLevel(newLevel + MAX_LEVEL);
 
+    const updateMainLevelNumberInput = (newValue: string) => {
+        setMainLevelNumberInput(newValue);
+        const parsedLevel = parseInt(newValue);
+        if (!isNaN(parsedLevel) && parsedLevel <= MAX_LEVEL) {
+            updateLevel(parsedLevel);
+        }
+    }
+
+    const updateBonusLevelNumberInput = (newValue: string) => {
+        setBonusLevelNumberInput(newValue);
+        const parsedLevel = parseInt(newValue);
+        if (!isNaN(parsedLevel) && parsedLevel <= MAX_BONUS_LEVEL) {
+            updateBonusLevel(parsedLevel);
+        }
+    }
+
     const mainInputProps = {
         min: 1,
         max: MAX_LEVEL,
-        value: Math.min(level, MAX_LEVEL),
     };
 
     const bonusInputProps = {
         min: 0,
         max: MAX_BONUS_LEVEL,
-        value: level - MAX_LEVEL,
     }
 
     return (
         <>
             Select your weekly vault level:
             <div className={styles["inputs-container"]}>
-                <Slider {...mainInputProps} onChange={updateLevel} />
+                <Slider {...mainInputProps} value={Math.min(level, MAX_LEVEL)} onChange={updateLevel} />
                 <input
                     {...mainInputProps}
+                    value={mainLevelNumberInput}
                     className={styles["number-input"]}
                     type="number"
-                    onChange={e => updateLevel(e.target.valueAsNumber)}
+                    onChange={e => updateMainLevelNumberInput(e.target.value)}
                 />
             </div>
             {level >= MAX_LEVEL && <div className={styles["inputs-container"]}>
-                <Slider {...bonusInputProps} onChange={updateBonusLevel} />
+                <Slider {...bonusInputProps} value={level - MAX_LEVEL} onChange={updateBonusLevel} />
                 <input
                     {...bonusInputProps}
+                    value={bonusLevelNumberInput}
                     className={styles["number-input"]}
                     type="number"
-                    onChange={e => updateBonusLevel(e.target.valueAsNumber)}
+                    onChange={e => updateBonusLevelNumberInput(e.target.value)}
                 />
             </div>}
         </>
@@ -75,7 +92,7 @@ const Slider: FunctionComponent<SliderProps> = ({ min, max, value, onChange }) =
             min={min}
             max={max}
             step={1}
-            values={[isNaN(value) ? min : value]}
+            values={[value]}
             onChange={newState => onChange(newState[0])}
             renderTrack={({ props, children }) => (
                 <div className={styles["range-input"]}>
@@ -92,4 +109,4 @@ const Slider: FunctionComponent<SliderProps> = ({ min, max, value, onChange }) =
             )}
         />
     )
-} 
+}
