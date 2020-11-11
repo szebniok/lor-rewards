@@ -9,11 +9,21 @@
 
 ## About the project
 
+[![lor-rewards screenshot](screenshot.png)](https://szebniok.github.io/lor-rewards)
+
 This project is a simple calculator that aims to estimate expected value of weekly rewards in [Legends of Runeterra](https://playruneterra.com). 
 
 It is available at [https://szebniok.github.io/lor-rewards](https://szebniok.github.io/lor-rewards)
 
-Built with [Next.js](https://nextjs.org/)
+## Built with
+
+- [Next.js](https://nextjs.org/)
+- [react-range](https://github.com/tajo/react-range)
+- [react-transition-group](https://reactcommunity.org/react-transition-group/)
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Disclaimer
 
