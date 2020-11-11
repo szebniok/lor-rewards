@@ -22,7 +22,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
                 <title>Legends of Runeterra weekly vault rewards</title>
                 <meta name="description" content="Legends of Runeterra weekly vault rewards calculator" />
             </Head>
-            <nav>
+            <nav className={styles["navbar"]}>
                 <h1>
                     <Link href="/">
                         <a>
