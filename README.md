@@ -1,7 +1,7 @@
 <p align="center">
     <h3 align="center">lor-rewards</h3>
     <p align="center">
-        Legends of Runeterra weekly rewards calculator
+        Legends of Runeterra weekly vault rewards calculator
         <br />
         <a href="https://szebniok.github.io/lor-rewards"><strong>Open in browser &#187;</strong></a>
     </p>
@@ -11,7 +11,7 @@
 
 [![lor-rewards screenshot](screenshot.png)](https://szebniok.github.io/lor-rewards)
 
-This project is a simple calculator that aims to estimate expected value of weekly rewards in [Legends of Runeterra](https://playruneterra.com). 
+This project is a simple calculator that aims to estimate expected value of weekly vault rewards in [Legends of Runeterra](https://playruneterra.com). 
 
 It is available at [https://szebniok.github.io/lor-rewards](https://szebniok.github.io/lor-rewards)
 

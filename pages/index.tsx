@@ -19,14 +19,14 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
         <>
             <Head>
                 <script async defer data-domain="szebniok.github.io/lor-rewards" src="https://stats.000077.xyz/js/plausible.js"></script>
-                <title>Legends of Runeterra weekly rewards</title>
-                <meta name="description" content="Legends of Runeterra weekly rewards calculator" />
+                <title>Legends of Runeterra weekly vault rewards</title>
+                <meta name="description" content="Legends of Runeterra weekly vault rewards calculator" />
             </Head>
             <nav>
                 <h1>
                     <Link href="/">
                         <a>
-                            Legends of Runeterra weekly rewards
+                            Legends of Runeterra weekly vault rewards
                         </a>
                     </Link>
                 </h1>
