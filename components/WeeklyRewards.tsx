@@ -89,7 +89,8 @@ const WeeklyRewards: FunctionComponent<Props> = ({ rewards }) => {
                     <p>You will also recieve:</p>
 
                     <div className={styles["rewards-list-container"]}>
-                        <AdditionalReward type={rewards.champion_card ? "card" : "wildcard"} />
+                        {(rewards.champion_wildcard || rewards.champion_card) &&
+                            <AdditionalReward type={rewards.champion_card ? "card" : "wildcard"} />}
                         <AdditionalReward type="token" />
                     </div>
                 </div>

@@ -207,7 +207,7 @@ function getExpectedValue(chest: ChestProbability): ChestExpectedValue {
 export function getWeeklyReward(level: number): WeeklyReward {
     const champion_wildcard = level >= 10;
     const champion_card = !champion_wildcard && level >= 5;
-    const expedition_token = level >= 5;
+    const expedition_token = level >= 2;
 
     let common = 0;
     let rare = 0;
