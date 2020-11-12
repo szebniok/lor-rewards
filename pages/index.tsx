@@ -21,6 +21,7 @@ const Home: FunctionComponent<Props> = ({ levelRewards }) => {
                 <script async defer data-domain="szebniok.github.io/lor-rewards" src="https://stats.000077.xyz/js/plausible.js"></script>
                 <title>Legends of Runeterra weekly vault rewards</title>
                 <meta name="description" content="Legends of Runeterra weekly vault rewards calculator" />
+                <meta name="google-site-verification" content="rHkzTSzopbIP6bvmIacnGk84jS6naax4Q099rPJb5BE" />
             </Head>
             <nav className={styles["navbar"]}>
                 <h1>
